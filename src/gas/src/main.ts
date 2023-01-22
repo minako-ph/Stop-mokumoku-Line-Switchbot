@@ -3,11 +3,15 @@ export const doPost = (e: any) => {
   const prop = PropertiesService.getScriptProperties().getProperties()
   const CHANNEL_ACCESS_TOKEN = prop.CHANNEL_ACCESS_TOKEN
 
-  // WebHookで受信した応答用Token
-  const replyToken = JSON.parse(e.postData.contents).events[0].replyToken
   // 応答メッセージ用のAPI URL
   const url = 'https://api.line.me/v2/bot/message/reply'
+
+  // WebHookで受信した応答用Token
+  const replyToken = JSON.parse(e.postData.contents).events[0].replyToken
   const json = JSON.parse(e.postData.contents)
+
+  console.log(`📣: json`)
+  console.log(json)
 
   if (json.events[0].type === 'postback') {
     UrlFetchApp.fetch(url, {

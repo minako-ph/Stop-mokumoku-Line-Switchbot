@@ -40,6 +40,8 @@ if wifiResLength == 0:
         if (kashitsukiStatus['electricCurrent'] > 0):
             airconStatus = get_device_status(airconId)
             print(airconStatus)
-            if (airconStatus['electricCurrent'] == 0):
+            # エアコンに電流が流れていなければ
+            # if (airconStatus['electricCurrent'] == 0):
+            if (airconStatus['electricCurrent'] > 0):
                 # リマインド実行
                 _send_remind_message()
