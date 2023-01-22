@@ -1,15 +1,12 @@
 import os
 from dotenv import load_dotenv
-from switchbot import get_device_status
-from switchbot import get_device_list
+from line import _send_remind_message
+from switchbot import get_device_status, get_device_list
 
 load_dotenv()
 
 # 環境変数を参照
 WIFI_ADDRESS = os.getenv('WIFI_ADDRESS')
-
-# デバイスを取得するエンドポイント
-API_BASE = 'https://api.switch-bot.com/v1.1'
 
 # ------------
 # メイン処理
@@ -45,4 +42,4 @@ if wifiResLength == 0:
             print(airconStatus)
             if (airconStatus['electricCurrent'] == 0):
                 # リマインド実行
-                print('リマインド実行')
+                _send_remind_message()
