@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
-from request import _post_request
+from linebot import LineBotApi
+from linebot.models import FlexSendMessage
 
 load_dotenv()
 
@@ -9,48 +10,41 @@ CHANNEL_ACCESS_TOKEN = os.getenv('CHANNEL_ACCESS_TOKEN')
 CHANELL_SECRET = os.getenv('CHANELL_SECRET')
 LINE_ID = os.getenv('LINE_ID')
 
+# LINE
+line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
+
 
 def _send_remind_message():
-    url = "https://api.line.me/v2/bot/message/push"
-    headers = {
-        'Authorization': 'Bearer ' + CHANNEL_ACCESS_TOKEN,
-        'Content-Type': 'application/json'
-    }
     payload = {
-        'to': LINE_ID,
-        "messages": [
-            {
-                "type": "flex",
-                "altText": "加湿器を消し忘れていませんか？",
-                "contents": {
-                    "type": "bubble",
-                    "body": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "text",
-                                "text": "加湿器を消し忘れていませんか？"
-                            }
-                        ]
-                    },
-                    "footer": {
-                        "type": "box",
-                        "layout": "vertical",
-                        "contents": [
-                            {
-                                "type": "button",
-                                "action": {
-                                    "type": "postback",
-                                    "label": "加湿器を消す",
-                                    "data": "stop"
-                                }
-                            }
-                        ]
+        "type": "flex",
+        "altText": "加湿器を消し忘れていませんか？",
+        "contents": {
+            "type": "bubble",
+            "body": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "text",
+                        "text": "加湿器を消し忘れていませんか？"
                     }
-                }
+                ]
+            },
+            "footer": {
+                "type": "box",
+                "layout": "vertical",
+                "contents": [
+                    {
+                        "type": "button",
+                        "action": {
+                            "type": "postback",
+                            "label": "加湿器を消す",
+                            "data": "stop"
+                        }
+                    }
+                ]
             }
-        ]
+        }
     }
-    res = _post_request(url, headers, payload)
-    print(res)
+    container_obj = FlexSendMessage.new_from_json_dict(payload)
+    line_bot_api.push_message(LINE_ID, messages=container_obj)
