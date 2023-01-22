@@ -14,8 +14,8 @@ LINE_ID = os.getenv('LINE_ID')
 line_bot_api = LineBotApi(CHANNEL_ACCESS_TOKEN)
 
 
-def _send_remind_message():
-    payload = {
+def _send_remind_message(kashitsukiId):
+    body = {
         "type": "flex",
         "altText": "加湿器を消し忘れていませんか？",
         "contents": {
@@ -39,12 +39,12 @@ def _send_remind_message():
                         "action": {
                             "type": "postback",
                             "label": "加湿器を消す",
-                            "data": "stop"
+                            "data": kashitsukiId
                         }
                     }
                 ]
             }
         }
     }
-    container_obj = FlexSendMessage.new_from_json_dict(payload)
-    line_bot_api.push_message(LINE_ID, messages=container_obj)
+    messages = FlexSendMessage.new_from_json_dict(body)
+    line_bot_api.push_message(LINE_ID, messages=messages)

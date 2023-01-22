@@ -26,6 +26,7 @@
     "webpack-cli": "^4.7.0"
   },
   "dependencies": {
+    "crypto": "^1.0.1",
     "prettier": "^2.8.0"
   }
 }

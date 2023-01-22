@@ -1,3 +1,5 @@
+import { switchBotTurnOffReq } from './util'
+
 export const doPost = (e: any) => {
   // 環境変数の受け取り
   const prop = PropertiesService.getScriptProperties().getProperties()
@@ -10,10 +12,9 @@ export const doPost = (e: any) => {
   const replyToken = JSON.parse(e.postData.contents).events[0].replyToken
   const json = JSON.parse(e.postData.contents)
 
-  console.log(`📣: json`)
-  console.log(json)
-
   if (json.events[0].type === 'postback') {
+    switchBotTurnOffReq(json.events[0].postback.data)
+
     UrlFetchApp.fetch(url, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

@@ -14,8 +14,8 @@ WIFI_ADDRESS = os.getenv('WIFI_ADDRESS')
 
 # 自身の端末のwifi接続状況を確認
 stream = os.popen(f'arp -a | grep {WIFI_ADDRESS}')
-wifitRes = stream.read()
-wifiResLength = len(wifitRes)
+wifiRes = stream.read()
+wifiResLength = len(wifiRes)
 
 # wifiに自身の端末が接続されていなければ処理実行
 if wifiResLength == 0:
@@ -41,7 +41,6 @@ if wifiResLength == 0:
             airconStatus = get_device_status(airconId)
             print(airconStatus)
             # エアコンに電流が流れていなければ
-            # if (airconStatus['electricCurrent'] == 0):
-            if (airconStatus['electricCurrent'] > 0):
+            if (airconStatus['electricCurrent'] == 0):
                 # リマインド実行
-                _send_remind_message()
+                _send_remind_message(kashitsukiId)
